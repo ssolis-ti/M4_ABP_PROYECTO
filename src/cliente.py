@@ -84,5 +84,6 @@ class Cliente(ABC):
         metodo abstracto para convertir a diccionario.
         porque json no entiende de objetos python.
         para poder guardarlo en un archivo de texto.
+        obliga a las clases hijas a implementarlo. porque si no, no pueden ser instanciadas. para contrato estricto.
         """
         pass

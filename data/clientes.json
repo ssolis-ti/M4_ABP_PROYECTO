@@ -5,5 +5,12 @@
         "email": "z@pz.cl",
         "rut": "111111111",
         "descuento": 1.0
+    },
+    {
+        "type": "Regular",
+        "nombre": "Test Log",
+        "email": "test@log.com",
+        "rut": "99887766K",
+        "descuento": 0.1
     }
 ]

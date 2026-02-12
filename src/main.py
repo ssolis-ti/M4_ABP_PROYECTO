@@ -9,6 +9,7 @@ def leer_campo(mensaje: str, validar_func=None) -> str:
     Opcionalmente aplica una validacion extra.
     """
     while True:
+        # quitamos espacios al inicio y final. porque el usuario puede meter espacios sin querer. para limpiar el input.
         valor = input(mensaje).strip()
         if not valor:
             print("Error: Este campo no puede estar vacío.")
@@ -17,6 +18,7 @@ def leer_campo(mensaje: str, validar_func=None) -> str:
         if validar_func:
             try:
                 # la funcion validadora debe lanzar error o devolver False si falla
+                # ejecutamos validacion externa. porque cada campo tiene sus reglas (rut, email). para reutilizar logica.
                 if not validar_func(valor):
                      print("Error: Entrada inválida.")
                      continue

@@ -6,10 +6,12 @@ from src.tipos_clientes import ClienteRegular, ClientePremium, ClienteCorporativ
 from src.exceptions import ClienteExistenteError, ClienteNoEncontradoError, PersistenciaError
 
 # configuramos el logging. porque necesitamos ver que pasa. para diagnositcar errores despues.
+# configuramos el logging. porque necesitamos ver que pasa. para diagnositcar errores despues.
 logging.basicConfig(
     filename='app.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.DEBUG,
+    format='[%(levelname)s] %(funcName)s: %(message)s',
+    filemode='w' # sobrescribe cada vez. porque queremos limpiar log en cada ejecucion como pidio el usuario.
 )
 
 class GestorClientes:
@@ -31,6 +33,7 @@ class GestorClientes:
             raise ClienteExistenteError(f"el cliente con RUT {cliente.rut} ya existe.")
         
         self.clientes.append(cliente)
+        logging.debug(f"cliente en memoria antes de guardar: {cliente}")
         logging.info(f"cliente agregado: {cliente.rut}") # dejamos rastro. porque es bueno auditar. para seguridad.
         self.guardar_datos() # guardamos ya. porque si se luz se pierde. para persistencia inmediata.
 
@@ -46,6 +49,7 @@ class GestorClientes:
 
     def buscar_cliente(self, rut: str) -> Optional[Cliente]:
         """busca un cliente. porque a veces necesitamos ver sus datos. para encontrarlo por su id unico."""
+        logging.debug(f"buscando rut: {rut}")
         # next nos da el primero. porque solo deberia haber uno. para ser eficientes.
         return next((c for c in self.clientes if c.rut == rut), None)
 
@@ -56,6 +60,7 @@ class GestorClientes:
             data = [c.to_dict() for c in self.clientes]
             with open(self.archivo_path, 'w', encoding='utf-8') as f:
                 # dump escribe el archivo. indent es para que se lea bien. para formato bonito.
+                # ensure_ascii=False permite tildes y ñ. porque hablamos español. para que no salgan codigos raros.
                 json.dump(data, f, indent=4, ensure_ascii=False)
         except Exception as e:
             logging.error(f"error guardando datos: {e}")
@@ -70,6 +75,7 @@ class GestorClientes:
 
             with open(self.archivo_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+                logging.debug(f"datos crudos cargados: {len(data)} items")
 
             self.clientes = []
             for item in data:

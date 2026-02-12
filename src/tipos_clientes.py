@@ -5,6 +5,7 @@ class ClienteRegular(Cliente):
     cliente normalito.
     porque es el tipo de cliente por defecto.
     para usuarios sin beneficios extra.
+    hereda de Cliente, asi que tiene nombre, email y rut validados.
     """
     def __init__(self, nombre: str, email: str, rut: str, descuento: float = 0.0):
         # llamamos al constructor padre con super. porque heredamos su logica. para inicializar lo basico.
@@ -17,6 +18,7 @@ class ClienteRegular(Cliente):
 
     def to_dict(self) -> dict:
         # convertimos a diccionario. porque necesitamos serializar. para guardar en json incluyendo el tipo.
+        # sobreescribimos el metodo abstracto del padre.
         return {
             "type": "Regular", # importante saber el tipo. porque al cargar necesitamos saber que clase crear. para reconstruir el objeto.
             "nombre": self.nombre,
