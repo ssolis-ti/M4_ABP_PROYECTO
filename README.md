@@ -43,11 +43,10 @@ python -m unittest discover tests
 - JSON (para persistencia)
 - Unittest (para pruebas)
 
-## 📚 Documentación Adicional
+## Documentación Adicional
 
 - [Conceptos de POO](docs/conceptos_poo.md): Explicación teórica solicitada.
 - [Matriz de Entregables](entregables.md): Lista de requisitos cumplidos.
-- [Conciliación Final](docs/conciliacion_final.md): Revisión detallada página por página.
 - [Diagrama UML (PDF)](docs/uml_diagram.pdf): Estructura visual en PDF.
 - [Diagrama UML (Código)](docs/uml_diagram.mermaid): Código fuente del diagrama.
 
