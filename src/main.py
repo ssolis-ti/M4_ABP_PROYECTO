@@ -1,6 +1,30 @@
 from src.gestor import GestorClientes
+from src.cliente import Cliente
 from src.tipos_clientes import ClienteRegular, ClientePremium, ClienteCorporativo
 from src.exceptions import GICException
+
+def leer_campo(mensaje: str, validar_func=None) -> str:
+    """
+    Lee un campo de texto y valida que no se vacio.
+    Opcionalmente aplica una validacion extra.
+    """
+    while True:
+        valor = input(mensaje).strip()
+        if not valor:
+            print("Error: Este campo no puede estar vacío.")
+            continue
+        
+        if validar_func:
+            try:
+                # la funcion validadora debe lanzar error o devolver False si falla
+                if not validar_func(valor):
+                     print("Error: Entrada inválida.")
+                     continue
+            except Exception as e:
+                print(f"Error: {e}")
+                continue
+                
+        return valor
 
 def leer_float(mensaje: str) -> float:
     """
@@ -37,9 +61,9 @@ def main():
             # opcion 1: cliente regular. porque es el basico. para gente normal.
             if opcion == '1':
                 print("\n[Nuevo Cliente Regular]")
-                nombre = input("Nombre: ")
-                email = input("Email: ")
-                rut = input("RUT (sin puntos ni guion): ")
+                nombre = leer_campo("Nombre: ")
+                email = leer_campo("Email: ", Cliente.validar_email)
+                rut = leer_campo("RUT (sin puntos ni guion): ", Cliente.validar_rut)
                 # usamos nuestra funcion segura. porque input devuelve str. para convertir a float.
                 while True:
                     desc_input = leer_float("Descuento (0-100%): ")
@@ -54,9 +78,9 @@ def main():
             # opcion 2: cliente premium. porque paga cuota. para gente vip.
             elif opcion == '2':
                 print("\n[Nuevo Cliente Premium]")
-                nombre = input("Nombre: ")
-                email = input("Email: ")
-                rut = input("RUT (sin puntos ni guion): ")
+                nombre = leer_campo("Nombre: ")
+                email = leer_campo("Email: ", Cliente.validar_email)
+                rut = leer_campo("RUT (sin puntos ni guion): ", Cliente.validar_rut)
                 cuota = leer_float("Cuota Mensual: ")
                 c = ClientePremium(nombre, email, rut, cuota)
                 gestor.agregar_cliente(c)
@@ -65,17 +89,17 @@ def main():
             # opcion 3: corporativo. porque es empresa. para gestionar negocios.
             elif opcion == '3':
                 print("\n[Nuevo Cliente Corporativo]")
-                nombre = input("Nombre: ")
-                email = input("Email: ")
-                rut = input("RUT (sin puntos ni guion): ")
-                contacto = input("Contacto Empresa: ")
+                nombre = leer_campo("Nombre: ")
+                email = leer_campo("Email: ", Cliente.validar_email)
+                rut = leer_campo("RUT (sin puntos ni guion): ", Cliente.validar_rut)
+                contacto = leer_campo("Contacto Empresa: ")
                 c = ClienteCorporativo(nombre, email, rut, contacto)
                 gestor.agregar_cliente(c)
                 print("Cliente Corporativo agregado con éxito.")
 
             # opcion 4: buscar. porque necesitamos ver datos. para encontrar a alguien por su id.
             elif opcion == '4':
-                rut = input("Ingrese RUT a buscar: ")
+                rut = leer_campo("Ingrese RUT a buscar: ", Cliente.validar_rut)
                 cliente = gestor.buscar_cliente(rut)
                 if cliente:
                     # al imprimir cliente se llama a str. porque asi lo definimos. para ver sus datos bonitos.
@@ -85,7 +109,7 @@ def main():
 
             # opcion 5: borrar. porque ya no es cliente. para quitarlo de la lista.
             elif opcion == '5':
-                rut = input("Ingrese RUT a eliminar: ")
+                rut = leer_campo("Ingrese RUT a eliminar: ", Cliente.validar_rut)
                 gestor.eliminar_cliente(rut)
                 print("Cliente eliminado.")
 
