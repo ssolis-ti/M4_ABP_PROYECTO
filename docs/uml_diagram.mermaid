@@ -1,0 +1,55 @@
+classDiagram
+    class Cliente {
+        <<Abstract>>
+        -str _nombre
+        -str _email
+        -str _rut
+        +nombre() str
+        +email() str
+        +rut() str
+        +validar_email(email) str
+        +to_dict()* dict
+        +__str__() str
+        +__eq__(other) bool
+    }
+
+    class ClienteRegular {
+        +float descuento
+        +to_dict() dict
+        +__str__() str
+    }
+
+    class ClientePremium {
+        +float cuota_mensual
+        +to_dict() dict
+        +__str__() str
+    }
+
+    class ClienteCorporativo {
+        +str contacto_empresa
+        +to_dict() dict
+        +__str__() str
+    }
+
+    class GestorClientes {
+        +List~Cliente~ clientes
+        +str archivo_path
+        +agregar_cliente(cliente)
+        +eliminar_cliente(rut)
+        +buscar_cliente(rut) Cliente
+        +guardar_datos()
+        +cargar_datos()
+    }
+
+    class GICException {
+        <<Exception>>
+    }
+
+    Cliente <|-- ClienteRegular
+    Cliente <|-- ClientePremium
+    Cliente <|-- ClienteCorporativo
+    GestorClientes o-- Cliente : "Gestiona lista de"
+    GICException <|-- ClienteExistenteError
+    GICException <|-- ClienteNoEncontradoError
+    GICException <|-- DatosInvalidosError
+    GICException <|-- PersistenciaError
