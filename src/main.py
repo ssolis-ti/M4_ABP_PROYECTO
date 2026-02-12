@@ -41,7 +41,12 @@ def main():
                 email = input("Email: ")
                 rut = input("RUT (sin puntos ni guion): ")
                 # usamos nuestra funcion segura. porque input devuelve str. para convertir a float.
-                desc = leer_float("Descuento (0.0 - 1.0): ")
+                while True:
+                    desc_input = leer_float("Descuento (0-100%): ")
+                    if 0 <= desc_input <= 100:
+                        desc = desc_input / 100.0
+                        break
+                    print("Error: El descuento debe estar entre 0 y 100.")
                 c = ClienteRegular(nombre, email, rut, desc)
                 gestor.agregar_cliente(c)
                 print("Cliente Regular agregado con éxito.")

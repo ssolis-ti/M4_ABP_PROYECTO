@@ -1,1 +1,9 @@
-[]
+[
+    {
+        "type": "Regular",
+        "nombre": "1",
+        "email": "z@pz.cl",
+        "rut": "111111111",
+        "descuento": 1.0
+    }
+]
