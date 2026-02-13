@@ -16,14 +16,7 @@ Se requiere el ingreso de RUT sin puntos ni guiones para identificar a los clien
    ```bash
    python src/main.py
    ```
-
-## Pruebas
-
-El proyecto incluye pruebas para asegurar que todo funciona bien. Para ejecutarlas:
-
-```bash
-python -m unittest discover tests
-```
+o iniciar directamente desde el .bat (esta limpio revisen antes con notepad por seguridad)
 
 ## Estructura del Proyecto
 
@@ -41,7 +34,7 @@ python -m unittest discover tests
 - Python 3
 - POO (Herencia, Polimorfismo, Encapsulamiento)
 - JSON (para persistencia)
-- Unittest (para pruebas)
+
 
 ## Documentación Adicional
 
